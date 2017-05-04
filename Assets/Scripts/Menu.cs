@@ -7,6 +7,8 @@ public class Menu : MonoBehaviour
 	public string IP = "127.0.0.1";
 	public int Port = 25001;
 
+	public GameObject target;
+
 	void OnGUI ()
 	{
 		if (Network.peerType == NetworkPeerType.Disconnected)
@@ -24,7 +26,10 @@ public class Menu : MonoBehaviour
 			{
 				GUI.Label(new Rect(100, 100, 100, 25), "Client");
 
-				if (GUI.Button(new Rect(100, 125, 100, 25), "Logout"))
+				if (GUI.Button(new Rect(100, 125, 100, 25), "Change Color"))
+					networkView.RPC("ChangeColor", 	RPCMode.Others);
+
+				if (GUI.Button(new Rect(100, 150, 100, 25), "Logout"))
 					Network.Disconnect(250);
 			}
 
@@ -37,5 +42,11 @@ public class Menu : MonoBehaviour
 					Network.Disconnect(250);
 			}
 		}
+	}
+
+	[RPC]
+	void ChangeColor()
+	{
+		target.GetComponent<Renderer>().material.color = Color.green;
 	}
 }
